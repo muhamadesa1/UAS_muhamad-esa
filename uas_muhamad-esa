@@ -187,11 +187,7 @@
 
 
     <script>
-        /*
-            Author : Abi Amarulloh
-            NIM: 2010081
-            Prodi: Teknik Informatika
-        */
+        
 
         document.getElementById("formSubmit").addEventListener( "click", (e)=> {
             e.preventDefault();
