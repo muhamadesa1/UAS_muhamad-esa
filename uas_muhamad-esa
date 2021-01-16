@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>UAS WEB</title>
+</head>
+<body>
+    <div class="wrap">
+        <div style="float: left; margin-right: 50px;">
+            <p>Pemesanan Tiket Maskapai</p>
+            <table border=0 cellpadding="10" cellspacing="10">
+                <thead>
+                   <form>
+                        <tr>
+                            <td>
+                                Nama Pemesan
+                            </td>
+                            <td>
+                               :
+                            </td>
+                            <td>
+                                <input type="text" id="name">
+                                <div id="err_name"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Jumlah Tiket
+                            </td>
+                            <td>
+                                :
+                             </td>
+                            <td>
+                                <input type="number" id="jml_tiket">
+                                <div id="err_jml_tiket"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Kelas
+                            </td>
+                            <td>
+                                :
+                             </td>
+                            <td>
+                                <select name="kelas" id="kelas">
+                                    <option value="eko">Ekonomi</option>
+                                    <option value="bis">Bisnis</option>
+                                    <option value="eks">Eksekutif</option>
+                                </select>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                Tujuan
+                            </td>
+                            <td>
+                                :
+                             </td>
+                            <td>
+                                <select name="tujuan" id="tujuan">
+                                    <option value="Bali">Bali</option>
+                                    <option value="Kalimantan">Kalimantan</option>
+                                    <option value="Sulawesi">Sulawesi</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Bagasi :</td>
+                            <td>:</td>
+                            <td>
+                                <input type="radio" checked name="bagasi"  value="5kg"> 5 Kg
+                                <input type="radio" name="bagasi"  value="10kg"> 10 Kg
+                                <input type="radio" name="bagasi"  value="15kg"> 15 Kg
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Asuransi 
+                            </td>
+                            <td>:</td>
+                            <td>
+                                <input type="checkbox" checked name="asuransi" value="Asuransi Jiwa"> Asuransi Jiwa <br>
+                                <input type="checkbox" name="asuransi" value="Asuransi Kecelakaan"> Asuransi Kecelakaan <br>
+                                <input type="checkbox" name="asuransi" value="Asuransi Keterlambatan"> Asuransi Keterlambatan
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <button type="submit" id="formSubmit">Simpan</button>
+                                <button type="reset" >Batal</button>
+                            </td>
+                        </tr>
+                   </form>
+                </thead>
+            </table>        
+        </div>
+
+        <div class="toggle-data">
+            <p>Data Pemesanan Tiket Maskapa</p>
+            <table border=0 cellpadding="10" cellspacing="10" table style="display: block; margin-top: 30px;">
+                <thead>
+                    <tr>
+                        <td>
+                            Nama Pemesan
+                        </td>
+                        <td>
+                            :
+                         </td>
+                        <td>
+                            <div id="txt_name"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Jumlah Tiket
+                        </td>
+                        <td>
+                            :
+                         </td>
+                        <td>
+                            <div id="txt_jml_tiket"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Kelas
+                        </td>
+                        <td>
+                            :
+                         </td>
+                        <td>
+                            <div id="txt_kelas"></div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            Tujuan
+                        </td>
+                        <td>
+                            :
+                         </td>
+                        <td>
+                            <div id="txt_tujuan"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Bagasi</td>
+                        <td>
+                            :
+                         </td>
+                        <td>
+                            <div id="txt_bagasi"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Asuransi
+                        </td>
+                        <td>
+                            :
+                         </td>
+                        <td>
+                            <div id="txt_asuransi"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Total Harga 
+                        </td>
+                        <td>
+                            :
+                         </td>
+                        <td>
+                            <div id="txt_total_harga"></div>
+                        </td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+
+
+    <script>
+        /*
+            Author : Abi Amarulloh
+            NIM: 2010081
+            Prodi: Teknik Informatika
+        */
+
+        document.getElementById("formSubmit").addEventListener( "click", (e)=> {
+            e.preventDefault();
+            // Format Rupiah
+            const formatRupiah = (money) => {
+                return new Intl.NumberFormat('id-ID',
+                    { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }
+                ).format(money);
+            }
+
+            // Logic Name
+            var name = document.getElementById("name").value;
+            document.getElementById("txt_name").innerHTML = name;
+
+            // Logic Tiket
+            var jml_tiket = document.getElementById("jml_tiket").value;
+            var diskon = 0;
+            if(jml_tiket > 3) diskon = 30 / 100
+            document.getElementById("txt_jml_tiket").innerHTML = jml_tiket;
+
+            // Logic Kelas
+            var kelas = document.getElementById("kelas").value;
+            var harga = 0;
+            if(kelas == "eko"){
+                kelas = "Ekonomi (Air Mineral)"
+                harga = 1000000
+            }else if(kelas == "bis") {
+                kelas = "Bisnis (Snack)"
+                harga = 2000000;
+            }else if(kelas == "eks") {
+                kelas = "Eksekutif (Makanan)"
+                harga = 3000000;
+            }
+            document.getElementById("txt_kelas").innerHTML = kelas;
+            
+            // Logic Tujuan
+            let tujuan = document.getElementById("tujuan").value;
+            document.getElementById("txt_tujuan").innerHTML = tujuan;
+            
+            // Logic Bagasi
+            var bagasi = document.querySelector('input[name="bagasi"]:checked').value;
+            var biayaBagasi = 0;
+            if(bagasi == "5kg") biayaBagasi = 100000;
+            else if(bagasi == "10kg") biayaBagasi = 150000;
+            else if(bagasi == "15kg") biayaBagasi = 200000;
+            document.getElementById("txt_bagasi").innerHTML = `${bagasi} (${formatRupiah(biayaBagasi)})`;
+
+            // Logic Asuransi
+            var asuransi = document.querySelectorAll('input[name="asuransi"]:checked');
+            var txt_asuransi = "";
+            var i, biayaAsuransi;
+            for ( i = 0; i < asuransi.length; i++)
+                if (asuransi[i].checked) txt_asuransi += asuransi[i].value + ", <br>";
+            biayaAsuransi = i*50000
+            document.getElementById("txt_asuransi").innerHTML = `${txt_asuransi} (${formatRupiah(biayaAsuransi)})`;
+
+
+            // Logic Total Harga
+            let total_harga = harga * jml_tiket - (diskon) + biayaBagasi + biayaAsuransi
+            document.getElementById("txt_total_harga").innerHTML = formatRupiah(total_harga);
+
+            // Validasi Simple
+            if(name.trim() == "" || jml_tiket.trim() == "") {
+                if(name.trim() == "") {
+                    document.getElementById("err_name").innerHTML = "Isi Kolom Nama Terlebih dahulu !"
+                    document.querySelector(".toggle-data").style.display = "none"
+                }else {
+                    document.getElementById("err_jml_tiket").innerHTML = "Isi Kolom Jumlah Tiket Terlebih dahulu !"
+                    document.querySelector(".toggle-data").style.display = "none"
+                }
+            }else {
+                if(name.trim() == "") {
+                    document.getElementById("err_name").innerHTML = ""
+                    document.querySelector(".toggle-data").style.display = "block"
+                }else {
+                    document.getElementById("err_jml_tiket").innerHTML = ""
+                    document.querySelector(".toggle-data").style.display = "block"           
+                }
+            }
+        });
+    </script>
+</body>
+</html>
